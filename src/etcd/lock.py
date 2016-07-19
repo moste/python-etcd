@@ -123,9 +123,9 @@ class Lock(object):
                 except etcd.EtcdKeyNotFound:
                     _log.debug("Key %s not present anymore, moving on", watch_key)
                     return self._acquired(blocking=True, timeout=timeout)
-                except etcd.EtcdException:
-                    # TODO: log something...
-                    pass
+                except Exception as e:
+                    _log.debug("acquireing lock exception %s", e)
+                    raise(e)
 
     @property
     def lock_key(self):
